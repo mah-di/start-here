@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock title %}
+
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <p>You are authenticated, {{user.username}}.</p>
+        <p><a class="ui tiny violet button" href="{% url 'password_change' %}">Change Password</a></p>
+        <p><a class="ui tiny violet button" href="{% url 'logout' %}">LogOut</a></p>
+        {% else %}
+        <p>You aren't authenticated.</p>
+        <p><a class="ui tiny violet button" href="{% url 'login' %}">LogIn</a></p>
+    {% endif %}
+
+{% endblock content %}

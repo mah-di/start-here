@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Resend Verification{% endblock title %}
+
+{% block content %}
+
+    <div class="ui grid">
+        <div class="five wide column"></div>
+        <div class="six wide column">
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="ui info message">
+                        <i class="close icon"></i>
+                        <div>
+                            {{msg}}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <h2 class="ui black header">Resend Verification Email</h2>
+            
+            <form class="ui form" method="POST">
+                {% csrf_token %}
+                <p><input type="email" name="email" id=""></p>
+            
+                <p><input class="ui teal tiny fluid basic button" type="submit" value="Resend Verification Email"></p>
+            </form>
+            <br>
+            <p><a href="{% url 'login' %}">Go back to LogIn page.</a></p>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script>
+        $('.message .close')
+            .on('click', function() {
+                $(this)
+                .closest('.message')
+                .transition('fade')
+                ;
+            })
+        ;
+    </script>
+{% endblock scripts %}
