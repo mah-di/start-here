@@ -10,6 +10,7 @@ from django.contrib.auth.views import (
     LoginView,
     LogoutView
     )
+from .forms import CustomPasswordChangeForm, CustomSetPasswordForm
 
 
 
@@ -67,10 +68,10 @@ urlpatterns = [
         PasswordResetConfirmView.as_view(
             template_name = 'accounts/password_reset_confirm.html',
             success_url = reverse_lazy('password_reset_complete'),
+            form_class = CustomSetPasswordForm,
             # token_generator = instance of the class to check the password (default = default_token_generator),
             # post_reset_login = bool -> determine whether to authenticate user after successful password reset (default = False),
             # post_reset_login_backend = path to the authentication backend for authenticating a user if post_reset_login is True (default = None),
-            # form_class = an instance of django.contrib.auth.forms.SetPasswordForm,
             # extra_context = {context: 'data'},
             # reset_url_token = token parameter displayed as a component of password reset URLs (default = 'set-password'),
         ),
@@ -87,7 +88,7 @@ urlpatterns = [
         PasswordChangeView.as_view(
             template_name = 'accounts/password_change.html',
             success_url = reverse_lazy('password_change_done'),
-            # form_class = an instance of django.contrib.auth.forms.PasswordChangeForm, 
+            form_class = CustomPasswordChangeForm, 
             # extra_context = {context: 'data'},
         ),
         name='password_change'),
