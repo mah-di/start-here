@@ -2,11 +2,14 @@
 
     <div class="ui secondary  inverted menu">
         <div class="ui container">
-            <a href="{% url 'account' %}" class="ui item">
-              Profile
+            <a href="{% url 'index' %}" class="ui item">
+              Index
             </a>
             <div class="right menu">
                 {% if user.is_authenticated %}
+                <a href="{% url 'password_change' %}" class="ui item">
+                    Change Password
+                </a>
                 <a href="{% url 'logout' %}" class="ui item">
                     LogOut
                 </a>

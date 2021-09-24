@@ -120,7 +120,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_REDIRECT_URL = '/accounts/'
+LOGIN_REDIRECT_URL = '/'
 
 
 # Email settings

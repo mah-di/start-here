@@ -8,8 +8,6 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
 
 
-def account(request):
-    return render(request, 'accounts/account.html')
 
 def register(request):
     form = RegistrationForm()

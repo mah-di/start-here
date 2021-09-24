@@ -10,13 +10,18 @@ from django.contrib.auth.views import (
     LoginView,
     LogoutView
     )
-from .forms import CustomPasswordChangeForm, CustomSetPasswordForm
+
+from .forms import (
+    CustomAuthenticationForm,
+    CustomPasswordChangeForm,
+    CustomPasswordResetForm,
+    CustomSetPasswordForm
+    )
 
 
 
 
 urlpatterns = [
-    path('', views.account, name='account'),
     path('register/', views.register, name='register'),
     path('verify/<uemb64>/<token>/', views.verify_account, name='email_verify'),
     path('resend-verification/', views.resend_verification, name='resend_verification'),
@@ -24,8 +29,8 @@ urlpatterns = [
         'login/',
         LoginView.as_view(
             template_name = 'accounts/login.html',
+            authentication_form = CustomAuthenticationForm,
             # redirect_field_name = name of a GET field (default = 'next'),
-            # authentication_form = an instance of django.contrib.auth.forms.AuthenticationForm,
             # extra_context = {context: 'data'},
             # redirect_authenticated_user = bool -> determines whether to redirect already authenticated users as per successful login or not (default = False)
             # success_url_allowed_hosts = set of safe for redirecting hosts after login (default = [])
@@ -46,7 +51,7 @@ urlpatterns = [
         PasswordResetView.as_view(
             template_name = 'accounts/password_reset.html',
             success_url = reverse_lazy('password_reset_done'),
-            # form_class = an instance of django.contrib.auth.forms.PasswordResetForm,
+            form_class = CustomPasswordResetForm,
             # email_template_name = name of template used for generating password reset email (default = registration/password_reset_email.html)
             # subject_template_name = name of template used to generate the email subject (default = registration/password_reset_subject.txt),
             # token_generator = token for password resetting request (default = default_token_generator),

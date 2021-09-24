@@ -16,6 +16,22 @@
         <div class="five wide column"></div>
         <div class="six wide column">
         
+            {% if form.errors %}
+                <div class="ui warning message">
+                    <i class="close icon"></i>
+                    <div>
+                        {{form.errors.username}}
+                    </div>
+                    <div>
+                        {{form.errors.password}}
+                    </div>
+                    {% if '__all__' in form.errors %}
+                        <div>
+                            Invalid username and/or password.
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
         
             {% if messages %}
                 {% for msg in messages %}
@@ -32,7 +48,14 @@
         
             <form class="ui form" action="" method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <p>
+                    {{ form.username.label }}
+                    {{ form.username }}
+                </p>
+                <p>
+                    {{ form.password.label }}
+                    {{ form.password }}
+                </p>
         
                 <input class="ui fluid tiny basic teal button" type="submit" value="LogIn" id="">
             </form>

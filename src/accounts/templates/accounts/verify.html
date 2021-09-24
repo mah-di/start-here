@@ -10,13 +10,13 @@
         <div class="six wide column">
             <div class="ui violet segment">
                 {% if valid %}
-                    <p>
+                    <div class="ui segment green">
                         Congratulations, your account has been successfully verified. <a href="{% url 'login' %}">You can now LogIn.</a>
-                    </p>
+                    </div>
                 {% else %}
-                    <p>
-                        Invalid request.
-                    </p>
+                    <div class="ui segment inverted red">
+                        Invalid Request.
+                    </div>
                 {% endif %}
             </div>
         </div>
