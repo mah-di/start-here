@@ -1,16 +1,35 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, UserCreationForm, PasswordChangeForm
 from django.utils.translation import ugettext as _
 
 
+User = get_user_model()
+
+
 class RegistrationForm(UserCreationForm):
+    error_messages = {
+        **UserCreationForm.error_messages,
+        'empty_email' : _("Email field cannot be empty."),
+        'email_exists' : _("An account with that email already exists."),
+    }
+    
     is_active = forms.BooleanField(widget=forms.HiddenInput(), required=False)
+    
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'is_active']
         extra_kwargs = {'is_active': {'value': False}}
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise forms.ValidationError(self.error_messages['empty_email'], code='empty_email')
+
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError(self.error_messages['email_exists'], code='email_exists')
+
+        return email
 
 class CustomSetPasswordForm(SetPasswordForm):
     error_messages = {

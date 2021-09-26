@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from django.utils.encoding import force_text
 from .forms import RegistrationForm
@@ -7,6 +7,8 @@ from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
 
+
+User = get_user_model()
 
 
 def register(request):
@@ -53,14 +55,16 @@ def verify_account(request, uemb64, token):
 def resend_verification(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        if User.objects.filter(email=email).exists():
+        try:
             user = User.objects.get(email=email)
-            if user.is_active:
-                messages.error(request, 'Account associated with this email is already verified.')
-            else:
-                verification_mail(request, user.username, email)
-                messages.info(request, 'An email containing verification link was sent to you email account. Please note that the link will expire in 24 hours.')
+        except User.DoesNotExist:
+            messages.error(request, 'No account associated with this email exists in our system.')
+            return render(request, 'accounts/resend_verification.html')
+
+        if user.is_active:
+            messages.error(request, 'Account associated with this email is already verified.')
         else:
-            messages.error(request, 'No account associated with this email exists in our database.')
+            verification_mail(request, user.username, email)
+            messages.info(request, 'An email containing verification link was sent to you email account. Please note that the link will expire in 24 hours.')
         
     return render(request, 'accounts/resend_verification.html')
