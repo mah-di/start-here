@@ -41,6 +41,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # Custom Middleware
+    'accounts.middleware.UnauthenticatedSpecificMiddleware',
     'accounts.middleware.LoginRequiredMiddleware',
 ]
 
@@ -120,7 +121,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/accounts/django-auth-essentials-home/'
 
 
 # Email settings
@@ -133,15 +134,3 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
-
-
-LOGIN_REQUIRED_EXEMPT_URLS = [
-    'accounts/register/',
-    'accounts/login/',
-    'accounts/verify/',
-    'accounts/resend-verification/',
-    'accounts/password-reset/',
-    'accounts/password-reset/done/',
-    'accounts/password-reset/confirm/',
-    'accounts/password-reset/complete/',
-]

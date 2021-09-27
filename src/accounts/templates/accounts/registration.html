@@ -49,8 +49,6 @@
         
                 <input type="submit" class="ui fluid tiny basic teal button" value="SignUp">
             </form>
-            <br>
-            <p>Already have an account? <a href="{% url 'login' %}">LogIn.</a></p>
         </div>
         <div class="four wide column">
             <div class="ui red segment">
@@ -75,6 +73,7 @@
                         Your password can’t be entirely numeric.
                     </li>
                 </ol>
+                <p>Already have an account? <a href="{% url 'login' %}">LogIn.</a></p>
             </div>
         </div>
     </div>

@@ -22,6 +22,7 @@ from .forms import (
 
 
 urlpatterns = [
+    path('django-auth-essentials-home/', views.index, name='django_auth_essentials_index'),
     path('register/', views.register, name='register'),
     path('verify/<uemb64>/<token>/', views.verify_account, name='email_verify'),
     path('resend-verification/', views.resend_verification, name='resend_verification'),

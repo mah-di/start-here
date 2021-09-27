@@ -5,7 +5,7 @@
 {% block content %}
 
     <div class="ui grid">
-        <div class="five wide column"></div>
+        <div class="three wide column"></div>
         <div class="six wide column">
             {% if messages %}
                 {% for msg in messages %}
@@ -26,8 +26,11 @@
             
                 <p><input class="ui teal tiny fluid basic button" type="submit" value="Resend Verification Email"></p>
             </form>
-            <br>
-            <p><a href="{% url 'login' %}">Go back to LogIn page.</a></p>
+        </div>
+        <div class="four wide column">
+            <div class="ui teal segment">
+                <p>Clicked by mistake? <a href="{% url 'login' %}">Go back to LogIn page.</a></p>
+            </div>
         </div>
     </div>
 

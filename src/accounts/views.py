@@ -11,6 +11,9 @@ from django.contrib import messages
 User = get_user_model()
 
 
+def index(request):
+    return render(request, 'accounts/index.html')
+
 def register(request):
     form = RegistrationForm()
     if request.method == 'POST':

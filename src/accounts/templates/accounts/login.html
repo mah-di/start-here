@@ -13,7 +13,7 @@
 {% block content %}
 
     <div class="ui grid">
-        <div class="five wide column"></div>
+        <div class="three wide column"></div>
         <div class="six wide column">
         
             {% if form.errors %}
@@ -60,9 +60,10 @@
                 <input class="ui fluid tiny basic teal button" type="submit" value="LogIn" id="">
             </form>
         
-            <br>
+        </div>
+        <div class="four wide column">
 
-            <div class="ui violet segment">
+            <div class="ui teal segment">
                 <p>Don't have an account? <a href="{% url 'register' %}">SignUp.</a></p>
                 <p>Forgot password? <a href="{% url 'password_reset' %}">Reset Password.</a></p>
                 <p>Did not receive account verification email or verification link expired? <a href="{% url 'resend_verification' %}">Resend verification email.</a></p>
