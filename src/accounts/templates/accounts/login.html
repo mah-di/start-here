@@ -65,8 +65,12 @@
 
             <div class="ui teal segment">
                 <p>Don't have an account? <a href="{% url 'register' %}">SignUp.</a></p>
-                <p>Forgot password? <a href="{% url 'password_reset' %}">Reset Password.</a></p>
-                <p>Did not receive account verification email or verification link expired? <a href="{% url 'resend_verification' %}">Resend verification email.</a></p>
+                {% if ALLOW_PASSWORD_RESET %}
+                    <p>Forgot password? <a href="{% url 'password_reset' %}">Reset Password.</a></p>
+                {% endif %}
+                {% if ALLOW_VERIFICATION %}
+                    <p>Did not receive account verification email or verification link expired? <a href="{% url 'resend_verification' %}">Resend verification email.</a></p>
+                {% endif %}        
             </div>
         </div>
     </div>

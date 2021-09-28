@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, UserCreationForm, PasswordChangeForm
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
 
 User = get_user_model()
@@ -19,17 +20,26 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'is_active']
-        extra_kwargs = {'is_active': {'value': False}}
+
+    def clean_is_active(self):
+        if settings.ALLOW_VERIFICATION:
+            return False
+        
+        return True
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if not email:
-            raise forms.ValidationError(self.error_messages['empty_email'], code='empty_email')
 
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError(self.error_messages['email_exists'], code='email_exists')
+        if settings.REQUIRE_EMAIL or settings.ALLOW_VERIFICATION:    
+            if not email:
+                raise forms.ValidationError(self.error_messages['empty_email'], code='empty_email')
+
+        if settings.UNIQUE_EMAIL and email or settings.ALLOW_VERIFICATION and email:    
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError(self.error_messages['email_exists'], code='email_exists')
 
         return email
+
 
 class CustomSetPasswordForm(SetPasswordForm):
     error_messages = {

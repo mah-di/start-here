@@ -39,10 +39,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # Custom Middleware
-    'accounts.middleware.UnauthenticatedSpecificMiddleware',
-    'accounts.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'start_here.urls'
@@ -121,9 +117,6 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_REDIRECT_URL = '/accounts/django-auth-essentials-home/'
-
-
 # Email settings
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -134,3 +127,15 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
+
+# LOGIN_REQUIRED_EXEMPT_URLS = []
+
+# UNAUTHENTICATED_SPECIFIC_URLS = []
+
+ALLOW_PASSWORD_RESET = True
+
+# ALLOW_VERIFICATION = True
+
+REQUIRE_EMAIL = True
+
+UNIQUE_EMAIL = True

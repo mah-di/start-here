@@ -1,18 +1,20 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login, authenticate
 from django.shortcuts import redirect, render
 from django.utils.encoding import force_text
-from .forms import RegistrationForm
-from .email import verification_mail
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
+from django.conf import settings
+
+from .forms import RegistrationForm
+from .email import verification_mail
 
 
 User = get_user_model()
 
 
-def index(request):
-    return render(request, 'accounts/index.html')
+def profile(request):
+    return render(request, 'accounts/profile.html')
 
 def register(request):
     form = RegistrationForm()
@@ -20,12 +22,19 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            verification_mail(request, username, email)
-            messages.info(request, "We've sent you an email with a verification link. Please verify your email as you won't be able to login if you don't.")
+            if settings.ALLOW_VERIFICATION:
+                username = form.cleaned_data.get('username')
+                email = form.cleaned_data.get('email')
+                verification_mail(request, username, email)
+                messages.info(request, "We've sent you an email with a verification link. Please verify your email as you won't be able to login if you don't.")
+            else:
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password2']
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
             return redirect('login')
-    
+
     return render(request, 'accounts/registration.html', context={'form': form})
 
 def verify_account(request, uemb64, token):
